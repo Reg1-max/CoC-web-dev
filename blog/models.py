@@ -3,6 +3,10 @@ from wagtail.core.models import Page
 from wagtail.core.fields import RichTextField
 from wagtail.admin.edit_handlers import FieldPanel
 from wagtail.images.edit_handlers import ImageChooserPanel
+from wagtail.core.fields import StreamField
+from wagtail.core import blocks
+from wagtail.admin.edit_handlers import StreamFieldPanel
+from wagtail.embeds.blocks import EmbedBlock
 
 # Create your models here.
 
@@ -23,7 +27,11 @@ class BlogIndexPage(Page):
 class BlogPage(Page):
     date = models.DateField("Post date")
     intro = models.CharField(max_length=250)
-    body = RichTextField(blank=True)
+    body = StreamField([
+        ('heading', blocks.CharBlock(classname="full title", icon="title")),
+        ('paragraph', blocks.RichTextBlock(icon="pilcrow")),
+        ('embed', EmbedBlock(icon="media")),
+    ])
     image = models.ForeignKey(
         'wagtailimages.Image',
         null=True,
@@ -34,6 +42,6 @@ class BlogPage(Page):
     content_panels = Page.content_panels + [
         FieldPanel('date'),
         FieldPanel('intro'),
-        FieldPanel('body', classname="full"),
+        StreamFieldPanel('body'),
         ImageChooserPanel('image'),
     ]
