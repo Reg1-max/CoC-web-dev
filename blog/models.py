@@ -8,9 +8,10 @@ from wagtail.core import blocks
 from wagtail.admin.edit_handlers import StreamFieldPanel
 from wagtail.embeds.blocks import EmbedBlock
 
+
 # Create your models here.
 
-class BlogIndexPage(Page):
+class BlogIndexPage(TranslatablePage):
     intro = RichTextField(blank=True)
     content_panels = Page.content_panels + [
         FieldPanel('intro', classname='full')
@@ -24,7 +25,7 @@ class BlogIndexPage(Page):
         context['blogpages'] = live_blogpages.order_by('-first_published_at')
         return context
 
-class BlogPage(Page):
+class BlogPage(TranslatablePage):
     date = models.DateField("Post date")
     intro = models.CharField(max_length=250)
     body = StreamField([
@@ -43,5 +44,14 @@ class BlogPage(Page):
         FieldPanel('date'),
         FieldPanel('intro'),
         StreamFieldPanel('body'),
+        ImageChooserPanel('image'),
+    ]
+
+class AboutPage(TranslatablePage):
+    body = RichTextField(blank=True, default="")
+    image = models.ForeignKey('wagtailimages.Image', null=True, blank=True, on_delete=models.SET_NULL, related_name='+')
+
+    content_panels = Page.content_panels + [
+        FieldPanel('body'),
         ImageChooserPanel('image'),
     ]

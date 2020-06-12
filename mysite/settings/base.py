@@ -40,6 +40,8 @@ INSTALLED_APPS = [
     'wagtail.search',
     'wagtail.admin',
     'wagtail.core',
+    'wagtail.contrib.modeladmin',
+    'wagtailtrans',
 
     'modelcluster',
     'taggit',
@@ -54,6 +56,8 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'wagtail.core.middleware.SiteMiddleware',
+    'wagtailtrans.middleware.TranslationMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -131,6 +135,9 @@ USE_L10N = True
 
 USE_TZ = True
 
+WAGTAILTRANS_SYNC_TREE = True
+WAGTAILTRANS_LANGUAGES_PER_SITE = False
+WAGTAILTRANS_HIDE_TRANSLATION_TREES = False
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
