@@ -7,12 +7,12 @@ from wagtail.core.fields import StreamField
 from wagtail.core import blocks
 from wagtail.admin.edit_handlers import StreamFieldPanel
 from wagtail.embeds.blocks import EmbedBlock
-
+from wagtailtrans.models import TranslatablePage
 
 # Create your models here.
 
 class BlogIndexPage(TranslatablePage):
-    intro = RichTextField(blank=True)
+    intro = RichTextField(blank=True, default="index")
     content_panels = Page.content_panels + [
         FieldPanel('intro', classname='full')
     ]
@@ -48,7 +48,7 @@ class BlogPage(TranslatablePage):
     ]
 
 class AboutPage(TranslatablePage):
-    body = RichTextField(blank=True, default="")
+    body = RichTextField(blank=True, default="about")
     image = models.ForeignKey('wagtailimages.Image', null=True, blank=True, on_delete=models.SET_NULL, related_name='+')
 
     content_panels = Page.content_panels + [
